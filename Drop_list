@@ -1,0 +1,62 @@
+# -*- coding: utf-16 -*-
+"""
+Created on Wed Feb 22 10:03:14 2023
+
+@author: tomvi
+"""
+# obecné
+
+import pandas as pd
+import numpy as np
+from itertools import islice
+
+# grafická podoba
+
+data = pd.read_csv("D:\\dir\\pydata\\yx.csv", encoding='utf-16',sep='\t')
+
+znak = data['書字形']
+znak_start = znak.apply(lambda x: x[0:1])
+
+
+types = set(znak)
+
+print(set(znak))
+
+print("Počet výskytů = " + str(len(data)))
+for i in types:
+    print(i)
+    print(sum(znak == i))
+    print("{:.0f}".format(sum(znak == i)/len(data)*100) + "%")
+    print("")
+    
+    
+data["new"] = data["キー"] == "コンピュータ" #doplnit to co čekáme že bude nové
+
+np.corrcoef(data["出版年"], data["new"])
+
+    
+# kolokace
+
+for x in ["zurai", "gatai", "nikui"]:
+    
+    data = pd.read_csv("D:\\dir\\pydata\\"+x+".csv", encoding='utf-16',sep='\t')
+
+    znak = data['語彙素']
+    znak_start = znak.apply(lambda x: x[0:1])
+
+
+    types = set(znak)
+    
+    
+
+    counts= []
+    for i in types:
+        counts.append(sum(znak == i))
+
+    counts_m = dict(zip(types,counts))
+    
+    results = {k: v for k, v in sorted(counts_m.items(), key=lambda item: item[1])}
+    print(x)
+    print(len(data))
+    print(dict(list(results.items())[-15:]))
+    print("")
